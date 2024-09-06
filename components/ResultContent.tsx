@@ -4,7 +4,8 @@ import {Box, Button, Stack, Typography, useTheme} from "@mui/material";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
 import {Item} from "./Item";
-import {VS} from "./VS";
+import {VS} from "../media/VS";
+import {useResponsive} from "@/helpers/useResponsive";
 
 enum RESULTS {
     WIN='WIN',
@@ -20,11 +21,13 @@ const RESULT_TEXT = {
 
 export const ResultContent = () => {
     const theme = useTheme();
+    const {isMobile} = useResponsive()
     const themeMode = theme.palette.mode;
     const {roomCode} = useStore()
     const { push, query } = useRouter();
     const { playerId } = query as { playerId: string }
 
+    const customCardSize = isMobile ? {width: 125, height: 125} : undefined
 
     const [choices, setChoices] = useState<any>({});
     const [opponent, setOpponent] = useState<string>('');
@@ -67,31 +70,31 @@ export const ResultContent = () => {
         socket.emit("playAgain", roomCode);
     }
       return (
-        <Stack textAlign='center' spacing={8}>
-            <Stack direction='row' spacing={4} alignItems='center'>
+        <Stack textAlign='center' spacing={8} alignItems='center'>
+            <Stack direction='row' spacing={isMobile ? 2 : 4} alignItems='center'>
                 <Box>
                     You
-                    <Item itemName={choices[playerId]} />
+                    <Item itemName={choices[playerId]} customSizes={customCardSize} />
                 </Box>
                 <VS />
                 <Box>
                     Opponent
-                    <Item itemName={choices[opponent]} />
+                    <Item itemName={choices[opponent]} customSizes={customCardSize} />
                 </Box>
             </Stack>
 
             {gameStatus && (
-                <>
-                    <Typography variant="h4">
+                <Stack spacing={isMobile ? 2 : 4}>
+                    <Typography variant={isMobile ? "h6" : "h4"}>
                         <span>{RESULT_TEXT[gameStatus]}</span>
                     </Typography>
                     <Button variant="outlined" autoFocus onClick={playAgain}>rematch</Button>
-                </>
+                </Stack>
             )}
 
             {!choices[opponent] && (
                 <Stack spacing={2} alignItems='center'>
-                    <Typography variant="h4">
+                    <Typography variant={isMobile ? "h6" : "h4"}>
                         <span>Waiting for you opponent </span>
                     </Typography>
                     <span className="loading"></span>

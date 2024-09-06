@@ -1,10 +1,10 @@
-import {GameCards} from "@/components/GameCard";
+import {Game} from "@/components/Game";
 import {PageLayout} from "@/components/PageLayout";
 
 const PlayerPage = (props: any) => {
   return (
     <PageLayout theme={props.theme} toggleTheme={props.toggleTheme}>
-        <GameCards />
+        <Game />
     </PageLayout>
   );
 };

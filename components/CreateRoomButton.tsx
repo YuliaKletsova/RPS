@@ -6,6 +6,7 @@ import {useRouter} from "next/router";
 import { useEffect, useState } from "react";
 
 export const CreateRoomButton = () => {
+  const {roomCode} = useStore()
   const { push } = useRouter();
   const { setRoomCode } = useStore()
   const [error, setError] = useState<string | null>(null);
@@ -13,7 +14,7 @@ export const CreateRoomButton = () => {
   useEffect(() => {
     socket.on("socketCreateRoom", ({roomCode, hostId}: {roomCode: string, hostId: string}) => {
       setRoomCode?.(roomCode)
-      push(`${hostId}`)
+      if (!error) push(`${hostId}`)
     });
 
     socket.on("roomExists", () => {
@@ -27,8 +28,10 @@ export const CreateRoomButton = () => {
   }, []);
 
   const createRoom = () => {
-    const roomCode = generateRoomCode();
-    socket.emit("createRoom", roomCode);
+    if(!roomCode) {
+      const roomCode = generateRoomCode();
+      socket.emit("createRoom", roomCode);
+    } else setError("Looks like you’re already in the room! Check the top left corner for the code, and feel free to share it with a friend to join the fun!");
   };
 
   return (

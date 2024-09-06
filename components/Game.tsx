@@ -4,8 +4,9 @@ import { Button, Card, DialogContent, Stack, Typography, Dialog} from "@mui/mate
 import {useEffect, useState} from "react";
 import { useRouter } from "next/router";
 import {Item, ITEMS} from "./Item";
+import {useResponsive} from "@/helpers/useResponsive";
 
-export const GameCards = () => {
+export const Game = () => {
     const {roomCode} = useStore()
     const { push, query } = useRouter();
     const { playerId } = query as { playerId: string }
@@ -34,30 +35,11 @@ export const GameCards = () => {
         {ITEMS.map(item => {
           return (
             <Item itemName={item} key={item} onChooseItem={() => chooseItem(item)} />
-            // <Card 
-            //     key={item}
-            //     variant="outlined"
-            //     sx={{
-            //         width: 200,
-            //         height: 200,
-            //     }}
-            //     onClick={() => chooseItem(item)}
-            //   >
-            //    <Stack 
-            //       sx={{height: '100%'}}
-            //       justifyContent='center'
-            //       alignItems='center'
-            //       textAlign='center'
-            //       >
-            //         <Item itemName={item} />
-            //         <Typography>{item.toUpperCase()}</Typography>
-            //    </Stack>
-            // </Card>
         )
         })}
 
         <Dialog open={modalStatus} onClose={toggleDialog}>
-          <Typography align="center" variant="h4" fontWeight={700}>You've choosen</Typography>
+          <Typography align="center" variant="h4" fontWeight={700}>You've chosen</Typography>
           <DialogContent>
             <Stack alignItems='center' p={2}>
               <Item itemName={choice} />

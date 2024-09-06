@@ -1,14 +1,23 @@
-import { Box, Card, Stack, Typography} from "@mui/material";
+import { Box, Card, Stack, SxProps, Theme, Typography} from "@mui/material";
 import Image from "next/image";
-import { Scissors } from "./Scissors";
-import { Paper } from "./Paper";
-import {Unknown} from "./Unknown";
-
+import { Scissors } from "../media/Scissors";
+import { Paper } from "../media/Paper";
+import {Unknown} from "../media/Unknown";
+import {useResponsive} from "@/helpers/useResponsive";
 
 export const ITEMS = ['rock', 'scissors', 'paper']
 
-export const Item = ({ itemName, onChooseItem }:{ itemName: string | null, onChooseItem?: () => void }) => {
+export const Item = ({ itemName, onChooseItem, customSizes }:{ itemName: string | null, onChooseItem?: () => void, customSizes?: SxProps<Theme> }) => {
   let content = null;
+  const {isMobile} = useResponsive()
+
+  const cardSize = isMobile ? {
+    width: 300,
+    height: 150,
+  } : {
+    width: 200,
+    height: 200,
+}
   
   switch (itemName) {
     case 'rock':
@@ -28,10 +37,7 @@ export const Item = ({ itemName, onChooseItem }:{ itemName: string | null, onCho
   return (
     <Card 
         variant="outlined"
-        sx={{
-            width: 200,
-            height: 200,
-        }}
+        sx={customSizes || cardSize}
         onClick={onChooseItem}
       >
         <Stack 
