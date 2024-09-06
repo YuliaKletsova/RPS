@@ -1,7 +1,7 @@
 
 import type { AppProps } from "next/app";
 import { ThemeProvider } from '@mui/material/styles';
-import {useEffect, useLayoutEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {getActiveTheme} from "@/helpers/getActiveTheme";
 import {CssBaseline} from "@mui/material";
 import StoreProvider from "@/store";
@@ -14,7 +14,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const [currentTheme, setCurrentTheme] = useState(lightTheme)
   const [isLightTheme, setIsLightTheme] = useState<boolean>(false)
 
-  useLayoutEffect(() => {
+  useEffect(() => {
       const prefersDarkScheme = window?.matchMedia("(prefers-color-scheme: dark)");
       setIsLightTheme(prefersDarkScheme.matches ? false : true)
   }, [])
