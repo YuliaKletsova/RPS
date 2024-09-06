@@ -4,6 +4,14 @@ import type { Server as HTTPServer } from "http";
 
 const rooms: { [key: string]: { host?: string; opponent?: string; choices: { [key: string]: string } } } = {};
 
+type NextApiResponseWithSocket = NextApiResponse & {
+  socket: {
+    server: HTTPServer & {
+      io?: Server;
+    };
+  };
+}
+
 export const config = {
   api: {
     bodyParser: false,
@@ -35,7 +43,12 @@ const determineWinner = (host: string, opponent: string, choices: any): {
   }
 };
 
-const socketHandler = (req: NextApiRequest, res: NextApiResponse) => {
+const socketHandler = (req: NextApiRequest, res: NextApiResponseWithSocket) => {
+  if (!res.socket) {
+    res.status(500).send("Socket not available");
+    return;
+  }
+
   if (res.socket.server.io) {
     console.log("Socket.io server already running");
     res.end();
