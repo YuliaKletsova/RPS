@@ -1,25 +1,31 @@
 
 import type { AppProps } from "next/app";
 import { ThemeProvider } from '@mui/material/styles';
-import {useEffect, useState} from "react";
+import {useEffect, useLayoutEffect, useState} from "react";
 import {getActiveTheme} from "@/helpers/getActiveTheme";
 import {CssBaseline} from "@mui/material";
 import StoreProvider from "@/store";
 
 
 export default function App({ Component, pageProps }: AppProps) {
-  const initialTheme = getActiveTheme('light')
-  const [currentTheme, setCurrentTheme] = useState(initialTheme)
-  const [selectedTheme, setSelectedTheme] = useState<'light'|'dark'>('light')
+  const lightTheme = getActiveTheme('light')
+  const darkTheme = getActiveTheme('dark')
+
+  const [currentTheme, setCurrentTheme] = useState(lightTheme)
+  const [isLightTheme, setIsLightTheme] = useState<boolean>(false)
+
+  useLayoutEffect(() => {
+      const prefersDarkScheme = window?.matchMedia("(prefers-color-scheme: dark)");
+      setIsLightTheme(prefersDarkScheme.matches ? false : true)
+  }, [])
   
   const toggleTheme = () => {
-    const theme = selectedTheme === 'light'? 'dark' : 'light';
-    setSelectedTheme(theme)
+    setIsLightTheme(!isLightTheme)
   }
 
   useEffect(() => {
-    setCurrentTheme(getActiveTheme(selectedTheme))
-  }, [selectedTheme])
+    setCurrentTheme(isLightTheme ?lightTheme : darkTheme)
+  }, [isLightTheme])
 
   return (
     <ThemeProvider theme={currentTheme}>
