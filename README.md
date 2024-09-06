@@ -1,3 +1,4 @@
+# Handle your issues like an adult—here’s rock-paper-scissors so you can settle them from a distance.
 
 ## Getting Started
 
