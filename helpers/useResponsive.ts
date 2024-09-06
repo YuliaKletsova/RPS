@@ -28,8 +28,8 @@ export const useResponsive = () => {
         };
     }, []);
 
-    const isMobile = width <= parseInt(BREAKPOINTS.mobile, 10) && width > 375;
-    const isDesktop = width > parseInt(BREAKPOINTS.tablet, 10);
+    const isMobile = width && width <= parseInt(BREAKPOINTS.mobile, 10) && width > 375;
+    const isDesktop = width && width > parseInt(BREAKPOINTS.tablet, 10);
 
     return { isMobile, isDesktop };
 };
