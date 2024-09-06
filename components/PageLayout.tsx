@@ -1,10 +1,8 @@
-import {Box, Button, Stack, useTheme} from "@mui/material";
+import {Box, Stack} from "@mui/material";
 import {ModeSwitch} from "./ModeSwitch";
-import {useStore} from "@/store";
+import {RoomCodeButton} from "./RoomCodeButton";
 
 export const PageLayout = ({theme, toggleTheme, children}: any) => {
-  const {roomCode} = useStore()
-
     return (
         <Stack alignItems='center' justifyContent='center'
           sx={{
@@ -13,17 +11,7 @@ export const PageLayout = ({theme, toggleTheme, children}: any) => {
             position: "relative",
           }}
         >
-          {roomCode && <Box
-            sx={{
-              position: "absolute",
-              top: 16,
-              left: 16,
-            }}
-          >
-            <Box>
-              <Button size="small" variant="outlined" onClick={() => navigator?.clipboard?.writeText(roomCode)}>{roomCode}</Button>
-            </Box>
-          </Box>}
+          <RoomCodeButton />
           <Box
             sx={{
               position: "absolute",
