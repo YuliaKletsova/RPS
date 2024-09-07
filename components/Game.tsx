@@ -4,7 +4,6 @@ import { Button, Card, DialogContent, Stack, Typography, Dialog} from "@mui/mate
 import {useEffect, useState} from "react";
 import { useRouter } from "next/router";
 import {Item, ITEMS} from "./Item";
-import {useResponsive} from "@/helpers/useResponsive";
 
 export const Game = () => {
     const {roomCode} = useStore()

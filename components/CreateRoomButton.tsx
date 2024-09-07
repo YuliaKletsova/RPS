@@ -1,9 +1,10 @@
 import {generateRoomCode} from "@/helpers/generateRoomCode";
 import {socket} from "@/socket";
 import {useStore} from "@/store";
-import {Alert, Button, Stack} from "@mui/material";
+import {Alert, Box, Button, Stack, Typography} from "@mui/material";
 import {useRouter} from "next/router";
 import { useEffect, useState } from "react";
+import {Item, ITEMS} from "./Item";
 
 export const CreateRoomButton = () => {
   const {roomCode} = useStore()
@@ -35,9 +36,15 @@ export const CreateRoomButton = () => {
   };
 
   return (
-    <Stack spacing={2}>
-      {error && <Alert severity="error" variant='outlined'>{error}</Alert>}
-      <Button fullWidth variant="contained" onClick={createRoom}>create room</Button>
+    <Stack spacing={10}>
+      <Box>
+        <Typography variant="h3">ROCK-PAPER-SCISSORS</Typography>
+        <Typography variant='h6'>Handle your issues like an adult</Typography>
+      </Box>
+      <Stack spacing={2}>
+        {error && <Alert severity="error" variant='outlined'>{error}</Alert>}
+        <Button fullWidth variant="contained" onClick={createRoom}>create room</Button>
+      </Stack>
     </Stack>
   );
 };
