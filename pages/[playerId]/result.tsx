@@ -1,11 +1,10 @@
-import {PageLayout} from "@/components/PageLayout";
-import {ResultContent} from "@/components/ResultContent";
+import { PageLayout } from '@/components/PageLayout';
+import { ResultContent } from '@/components/ResultContent';
 
 const Result = (props: any) => {
-
   return (
     <PageLayout theme={props.theme} toggleTheme={props.toggleTheme}>
-        <ResultContent />
+      <ResultContent />
     </PageLayout>
   );
 };

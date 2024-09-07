@@ -1,35 +1,36 @@
-'use client'
+'use client';
 import { useEffect, useState } from 'react';
 
 export const BREAKPOINTS = {
-    smallMobile: '375px',
-    mobile: '767px',
-    tablet: '1024px',
+  smallMobile: '375px',
+  mobile: '767px',
+  tablet: '1024px',
 };
 
 export const useResponsive = () => {
-    const [width, setWidth] = useState<number | undefined>(undefined);
+  const [width, setWidth] = useState<number | undefined>(undefined);
 
-    const handleWindowSizeChange = () => {
-        setWidth(window.innerWidth);
+  const handleWindowSizeChange = () => {
+    setWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setWidth(window.innerWidth);
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('resize', handleWindowSizeChange);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowSizeChange);
     };
+  }, []);
 
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            setWidth(window.innerWidth);
-        }
-      }, []);
+  const isMobile =
+        width && width <= parseInt(BREAKPOINTS.mobile, 10) && width > 375;
+  const isDesktop = width && width > parseInt(BREAKPOINTS.tablet, 10);
 
-    useEffect(() => {
-        window.addEventListener('resize', handleWindowSizeChange);
-
-        return () => {
-            window.removeEventListener('resize', handleWindowSizeChange);
-        };
-    }, []);
-
-    const isMobile = width && width <= parseInt(BREAKPOINTS.mobile, 10) && width > 375;
-    const isDesktop = width && width > parseInt(BREAKPOINTS.tablet, 10);
-
-    return { isMobile, isDesktop };
+  return { isMobile, isDesktop };
 };

@@ -1,0 +1,34 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "node": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "plugins": ["react", "@typescript-eslint"],
+    "rules": {
+        "no-console": "warn", // Allow console.log but warn
+        "no-unused-vars": "warn", // Warn on unused variables, not error
+        "quotes": ["error", "single", { "avoidEscape": true }], // Enforce single quotes but allow escape
+        "semi": ["error", "always"], // Require semicolons
+        "indent": ["warn", 2], // Warn if indentation isn't 2 spaces
+        "react/prop-types": "off", // Turn off prop-types check for React
+        "@typescript-eslint/no-explicit-any": "off", // Allow `any` type for flexibility
+        "@typescript-eslint/explicit-module-boundary-types": "off", // Don't require return type definitions
+        "@typescript-eslint/no-unused-vars": "warn", // Relax unused vars check
+        "@typescript-eslint/ban-ts-comment": "off", // Allow `@ts-ignore` comments
+        "react/react-in-jsx-scope": "off" // Disable need for React import in Next.js projects
+    }
+}

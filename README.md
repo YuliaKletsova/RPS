@@ -2,7 +2,7 @@
 
 ### Getting Started
 
-First, install dependencies: 
+First, install dependencies:
 
 ```bash
 npm i
