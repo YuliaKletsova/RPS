@@ -6,10 +6,9 @@ import {
   Stack,
   Typography,
   Dialog,
-  TextField,
   DialogTitle,
 } from '@mui/material';
-import { ChangeEventHandler, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Item, ITEMS } from './Item';
 
@@ -18,9 +17,9 @@ export const Game = () => {
   const { replace, query } = useRouter();
   const { playerId } = query as { playerId: string };
 
-  const [modalStatus, setModalStatus] = useState(true);
+  const [modalStatus, setModalStatus] = useState(false);
   const [choice, setChoice] = useState<string | null>(null);
-  const [reason, setReason] = useState<string>('');
+  // const [reason, setReason] = useState<string>('');
 
   useEffect(() => {
     if (!roomCode) replace('/');
@@ -42,11 +41,11 @@ export const Game = () => {
     toggleDialog();
   };
 
-  const changeText: ChangeEventHandler<
-        HTMLInputElement | HTMLTextAreaElement
-    > = (e) => {
-      setReason(e.target.value);
-    };
+  // const changeText: ChangeEventHandler<
+  //       HTMLInputElement | HTMLTextAreaElement
+  //   > = (e) => {
+  //     setReason(e.target.value);
+  //   };
 
   return (
     <Stack spacing={2}>
@@ -63,13 +62,17 @@ export const Game = () => {
       <Dialog open={modalStatus} onClose={toggleDialog}>
         <DialogTitle>
           <Typography align="center" variant="h4" fontWeight={700}>
-            {choice
+            {/* {choice
               ? "You've chosen"
-              : 'Whats the penalty for the loser?'}
+              : 'Whats the penalty for the loser?'} */}
+              You&apos;ve chosen
           </Typography>
         </DialogTitle>
         <DialogContent>
-          {choice ? (
+          <Stack alignItems="center" p={2}>
+            <Item itemName={choice} />
+          </Stack>
+          {/* {choice ? (
             <Stack alignItems="center" p={2}>
               <Item itemName={choice} />
             </Stack>
@@ -81,7 +84,7 @@ export const Game = () => {
               placeholder="e.g. Loser washes the dishes"
               onChange={changeText}
             />
-          )}
+          )} */}
         </DialogContent>
         <Stack direction="row" spacing={2} p={2}>
           <Button
@@ -89,9 +92,7 @@ export const Game = () => {
             variant="outlined"
             autoFocus
             onClick={toggleDialog}
-          >
-            {' '}
-                        cancel{' '}
+          >cancel
           </Button>
           <Button fullWidth variant="contained" onClick={onConfirm}>
             {choice ? 'confirm' : 'ok'}
