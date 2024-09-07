@@ -8,14 +8,14 @@ import {Item, ITEMS} from "./Item";
 
 export const CreateRoomButton = () => {
   const {roomCode} = useStore()
-  const { push } = useRouter();
+  const { replace } = useRouter();
   const { setRoomCode } = useStore()
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     socket.on("socketCreateRoom", ({roomCode, hostId}: {roomCode: string, hostId: string}) => {
       setRoomCode?.(roomCode)
-      if (!error) push(`${hostId}`)
+      if (!error) replace(`${hostId}`)
     });
 
     socket.on("roomExists", () => {

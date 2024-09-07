@@ -1,32 +1,42 @@
 import {socket} from "@/socket";
 import {useStore} from "@/store";
-import { Button, Card, DialogContent, Stack, Typography, Dialog} from "@mui/material";
-import {useEffect, useState} from "react";
+import { Button, Card, DialogContent, Stack, Typography, Dialog, TextField, Box, DialogTitle} from "@mui/material";
+import {ChangeEventHandler, useEffect, useState} from "react";
 import { useRouter } from "next/router";
 import {Item, ITEMS} from "./Item";
 
 export const Game = () => {
     const {roomCode} = useStore()
-    const { push, query } = useRouter();
+    const { replace, query } = useRouter();
     const { playerId } = query as { playerId: string }
 
-    const [modalStatus, setModalStatus] = useState(false);
+    const [modalStatus, setModalStatus] = useState(true);
     const [choice, setChoice] = useState<string | null>(null);
+    const [reason, setReason] = useState<string>("");
 
     useEffect(() =>{
-      if (!roomCode) push('/') 
+      if (!roomCode) replace('/') 
     }, [roomCode])
 
   const toggleDialog = () => setModalStatus(!modalStatus);
 
-  const play = () => {
+  const onConfirm = () => {
+    if (choice) {
       socket.emit("play", roomCode, playerId, choice);
-      push(`${playerId}/result`)
+      replace(`${playerId}/result`)
+    } else {
+      // save reasno to socket
+    }
   };
 
   const chooseItem = (item: string) => {
     setChoice(item)
     toggleDialog()
+  }
+
+  const changeText: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = 
+  (e) => {
+      setReason(e.target.value)
   }
 
     return (
@@ -38,15 +48,24 @@ export const Game = () => {
         })}
 
         <Dialog open={modalStatus} onClose={toggleDialog}>
-          <Typography align="center" variant="h4" fontWeight={700}>You've chosen</Typography>
+          <DialogTitle>
+            <Typography align="center" variant="h4" fontWeight={700}>{choice ? "You've chosen" : "Whats the penalty for the loser?"}</Typography>
+          </DialogTitle>
           <DialogContent>
-            <Stack alignItems='center' p={2}>
+            {choice ? (<Stack alignItems='center' p={2}>
               <Item itemName={choice} />
-            </Stack>
+            </Stack>) :
+            (<TextField
+                    fullWidth
+                    variant="outlined"
+                    value={reason}
+                    placeholder="e.g. Loser washes the dishes"
+                    onChange={changeText}
+                />)}
           </DialogContent>
           <Stack direction='row' spacing={2} p={2}>
                 <Button fullWidth variant="outlined" autoFocus onClick={toggleDialog}> cancel </Button>
-                <Button fullWidth variant="contained" onClick={play}>confirm</Button>
+                <Button fullWidth variant="contained" onClick={onConfirm}>{choice ? 'confirm' : 'ok'}</Button>
             </Stack>
         </Dialog>
        </Stack>

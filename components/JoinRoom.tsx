@@ -5,7 +5,7 @@ import {useRouter} from "next/router";
 import { ChangeEventHandler, useEffect, useState } from "react";
 
 export const JoinRoom = () => {
-  const { push } = useRouter();
+  const { replace } = useRouter();
   const { setRoomCode } = useStore()
   
   const [inputRoom, setInputRoom] = useState<string>("");
@@ -15,7 +15,7 @@ export const JoinRoom = () => {
     socket.on("joinedRoom", ({roomCode, playerId}: {roomCode: string, playerId: string}) => {
       setError(null);
       setRoomCode?.(roomCode)
-      push(`/${playerId}`)
+      replace(`/${playerId}`)
     });
 
     socket.on("playerJoined", () => {

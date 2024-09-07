@@ -24,10 +24,10 @@ export const ResultContent = () => {
     const {isMobile} = useResponsive()
     const themeMode = theme.palette.mode;
     const {roomCode} = useStore()
-    const { push, query } = useRouter();
+    const { replace, query } = useRouter();
     const { playerId } = query as { playerId: string }
 
-    const customCardSize = isMobile ? {width: 125, height: 125} : undefined
+    const customCardSize = isMobile ? { width: 125, height: 125 } : undefined
 
     const [choices, setChoices] = useState<any>({});
     const [opponent, setOpponent] = useState<string>('');
@@ -35,7 +35,7 @@ export const ResultContent = () => {
     
 
     useEffect(() =>{
-      if (!roomCode || !playerId) push('/') 
+      if (!roomCode || !playerId) replace('/') 
     }, [])
 
     useEffect(() => {
@@ -56,7 +56,7 @@ export const ResultContent = () => {
           });
     
         socket.on("replay", (player: string) => {
-            push(`/${player}`)
+            replace(`/${player}`)
         })
 
         return () => {
