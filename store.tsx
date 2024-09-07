@@ -1,10 +1,10 @@
 import {
-    ReactNode,
-    useContext,
-    useState,
-    createContext,
-    Dispatch,
-    SetStateAction,
+  ReactNode,
+  useContext,
+  useState,
+  createContext,
+  Dispatch,
+  SetStateAction,
 } from 'react';
 
 type ContextType = {
@@ -15,22 +15,22 @@ type ContextType = {
 const Context = createContext<ContextType>({});
 
 export const useStore = () => {
-    const context = useContext(Context);
-    if (!context) {
-        throw new Error('useGameContext must be used within a GameProvider');
-    }
-    return context;
+  const context = useContext(Context);
+  if (!context) {
+    throw new Error('useGameContext must be used within a GameProvider');
+  }
+  return context;
 };
 
 const StoreProvider = ({ children }: { children: ReactNode }) => {
-    const [roomCode, setRoomCode] =
+  const [roomCode, setRoomCode] =
         useState<ContextType['roomCode']>(undefined);
 
-    return (
-        <Context.Provider value={{ roomCode, setRoomCode }}>
-            {children}
-        </Context.Provider>
-    );
+  return (
+    <Context.Provider value={{ roomCode, setRoomCode }}>
+      {children}
+    </Context.Provider>
+  );
 };
 
 export default StoreProvider;
